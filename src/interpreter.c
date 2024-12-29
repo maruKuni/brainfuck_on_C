@@ -22,12 +22,9 @@ typedef struct BFInterpreter {
         uint64_t mem_length;
         uint64_t mem_index;
 } BFInterpreter;
-void init_interpreter(BFInterpreter **interpreter, const char *instruction) {
-        uint64_t instr_length = strlen(instruction);
+void init_interpreter(BFInterpreter **interpreter) {
         *interpreter = malloc(sizeof(BFInterpreter));
-
-        (*interpreter)->instruction = calloc(instr_length + 1, sizeof(char));
-        memcpy((void *)(*interpreter)->instruction, instruction, instr_length);
+        (*interpreter)->instruction = NULL;
         (*interpreter)->instr_index = 0;
         (*interpreter)->memory = calloc(300, sizeof(char));
         (*interpreter)->mem_index = 0;
@@ -40,6 +37,16 @@ void run(BFInterpreter *interpreter) {
                 interpreter->instr_index++;
         }
 }
+void set_instruction(BFInterpreter *interpreter, const char *instruction) {
+        const char *prev_instr = interpreter->instruction;
+        uint64_t instr_length = strlen(instruction);
+
+        interpreter->instruction = calloc(instr_length + 1, sizeof(char));
+        memcpy((void *)interpreter->instruction, instruction, instr_length);
+
+        if (prev_instr != NULL) free((void *)prev_instr);
+}
+
 static void operation(BFInterpreter *interpreter, char c) {
         switch (c) {
                 case '+':
