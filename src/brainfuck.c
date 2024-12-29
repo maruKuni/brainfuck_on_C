@@ -1,5 +1,11 @@
-#include <stdio.h>
+#include <interpreter.h>
+
 int main() {
-        printf("Hello, World!\n");
+        BFInterpreter *interpreter;
+        init_interpreter(
+            &interpreter,
+            "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++.."
+            "+++.>>.<-.<.+++.------.--------.>>+.>++.");
+        run(interpreter);
         return 0;
 }
